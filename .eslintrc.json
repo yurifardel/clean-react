@@ -3,8 +3,12 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/strict-boolean-expressions": "off"
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/camelcase": "off",
+    "eol-last": ["error", "never"]
   }
+  
 }
