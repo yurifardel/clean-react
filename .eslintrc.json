@@ -3,8 +3,8 @@
     {
       "files": ["*.ts", "*.tsx"], // Your TypeScript files extension
       "parserOptions": {
-        "project": ["./tsconfig.json"] // Specify it only for TypeScript files
-      },
+        "project": ["./tsconfig-eslint.json"] // Specify it only for TypeScript files
+      }
     }
   ],
   "parser": "@typescript-eslint/parser",
@@ -18,9 +18,7 @@
     "plugin:@typescript-eslint/recommended",
     "standard-with-typescript"
   ],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
+
   "rules": {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
@@ -31,7 +29,6 @@
     ],
     "@typescript-eslint/no-unused-vars": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars-experimental": ["error"],
-
+    "@typescript-eslint/no-unused-vars-experimental": ["error"]
   }
 }
