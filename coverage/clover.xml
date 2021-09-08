@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1631140178590" clover="3.2.0">
+  <project timestamp="1631140178591" name="All files">
+    <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="3" coveredmethods="3" elements="10" coveredelements="10" complexity="0" loc="6" ncloc="6" packages="1" files="1" classes="1"/>
+    <file name="remote-authentication.ts" path="H:\dev\js-2\react-estudo\clean-react\src\data\usecases\authentication\remote-authentication.ts">
+      <metrics statements="6" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="3" coveredmethods="3"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="9" count="1" type="stmt"/>
+      <line num="10" count="2" type="cond" truecount="1" falsecount="0"/>
+      <line num="12" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

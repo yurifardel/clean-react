@@ -12,13 +12,11 @@
     "jsx": "react",
     "rootDir": "src",
     "baseUrl": "src",
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "paths": {
+      "@/*": ["*"]
+    },
+    "allowJs": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src",
