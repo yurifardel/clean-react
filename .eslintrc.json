@@ -29,10 +29,7 @@
     ],
     "@typescript-eslint/no-unused-vars": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars-experimental": ["error"],
-    "no-console": "off",
-    "node/no-unsupported-features/es-syntax": ["error", { "version": ">=10.13.0" }],
-    "node/no-unsupported-features/es-builtins": ["error", { "version": ">=10.13.0" }],
-    "prettier/prettier": "error"
+    "@typescript-eslint/no-unused-vars-experimental": ["error"]
+
   }
 }
