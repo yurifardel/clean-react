@@ -1,11 +1,10 @@
 import { HttpResponse } from './http-response'
 
-/* eslint-disable @typescript-eslint/ban-types */
-export type HttpPostParams = {
+export type HttpPostParams<Tipo> = {
   url: string
-  body?: object
+  body?: Tipo
 }
 
-export interface HttpPostClient {
-  post(params: HttpPostParams): Promise<HttpResponse>
+export interface HttpPostClient<Tipo, Res> { // tipo do body e o tipo do retorno
+  post(params: HttpPostParams<Tipo>): Promise<HttpResponse<Res>>
 }
