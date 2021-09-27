@@ -9,11 +9,18 @@
   ],
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   
   "extends": [
     "eslint:recommended",
+    "plugin:react/recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "standard-with-typescript"
@@ -29,7 +36,9 @@
     ],
     "@typescript-eslint/no-unused-vars": "off",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars-experimental": ["error"]
+    "@typescript-eslint/no-unused-vars-experimental": ["error"],
     // "@typescript-eslint/ban-types": "eslint-disable "
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error"
   }
 }
