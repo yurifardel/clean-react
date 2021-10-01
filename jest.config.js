@@ -6,7 +6,7 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: [
- 
+
   ],
   testEnvironment: 'jsdom',
   transform: {
