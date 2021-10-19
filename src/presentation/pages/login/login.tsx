@@ -15,24 +15,21 @@ const Login: React.FC<Props> = ({ validation }) => {
     password: '',
     email: '',
     emailError: '',
-    passwordError: 'Campo obrigatorio',
+    passwordError: '',
     mainError: ''
   })
   useEffect(() => {
     setState({
       ...state,
-      emailError: validation.validate('email', state.email)
+      emailError: validation.validate('email', state.email),
+      passwordError: validation.validate('password', state.password)
     })
-  }, [state.email])
-
-  useEffect(() => {
-    validation.validate('password', state.password)
-  }, [state.password])
+  }, [state.email, state.password])
 
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <Context.Provider value={{ state, setState }}>
+      <Context.Provider value={{ state, setState, validation }}>
         <form className={Styles.form} action="">
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="digite seu email"/>
