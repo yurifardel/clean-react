@@ -31,7 +31,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (state.isLoading) {
+    if (state.isLoading || state.emailError || state.passwordError) {
       // trava
       return
     }
@@ -49,7 +49,7 @@ const Login: React.FC<Props> = ({ validation, authentication }) => {
     <div className={Styles.login}>
       <LoginHeader />
       <Context.Provider value={{ state, setState, validation }}>
-        <form className={Styles.form} action="" onSubmit={handleSubmit}>
+        <form data-testid='form' className={Styles.form} action="" onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="digite seu email"/>
           <Input type="password" name="password" placeholder="digite sua senha" />
