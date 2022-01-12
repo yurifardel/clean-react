@@ -4,5 +4,3 @@ node_js:
 script:
   - eslint 'src/**'
   - npm run test:coveralls
-env:
-  - github-token: ${{ secrets.GITHUB_TOKEN }}
