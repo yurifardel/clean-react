@@ -1,0 +1,1 @@
+[![Coverage Status](https://coveralls.io/repos/github/yurifardel/clean-react/badge.svg?branch=master)](https://coveralls.io/github/yurifardel/clean-react?branch=master)
