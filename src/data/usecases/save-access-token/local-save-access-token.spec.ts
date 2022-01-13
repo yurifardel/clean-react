@@ -19,7 +19,7 @@ const makeSut = (): SutTypes => {
 describe('LocalSaveAccessToken', () => {
   test('should call set-storage with correct value', async () => {
     const { sut, setStorageSpy } = makeSut()
-    const accessToken = faker.random.uuid()
+    const accessToken = faker.datatype.uuid()
     await sut.save(accessToken)
     expect(setStorageSpy.key).toBe('accessToken')
     expect(setStorageSpy.value).toBe(accessToken)
