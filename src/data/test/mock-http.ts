@@ -1,5 +1,12 @@
-/* eslint-disable @typescript-eslint/ban-types */
-import { HttpPostClient, HttpPostParams, HttpResponse, HttpStatusCode } from '@/data/protocols/http'
+import { HttpPostClient, HttpResponse, HttpStatusCode } from '@/data/protocols/http'
+import { HttpPostParams } from '../protocols/http'
+
+import faker from 'faker'
+
+export const mockPostRequest = (): HttpPostParams<any> => ({
+  url: faker.internet.url(),
+  body: faker.random.objectElement()
+})
 
 export class HttpPostClientSpy<Req, Res> implements HttpPostClient<Req, Res> {
   url?: string
