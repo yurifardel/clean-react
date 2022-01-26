@@ -3,7 +3,7 @@ import { RenderResult, render, cleanup, fireEvent, waitFor } from '@testing-libr
 import { Helper, ValidationStub, AddAccountSpy, SaveAccessTokenMock } from '@/presentation/test'
 import Signup from './signup'
 import faker from 'faker'
-import { EmailInUseError } from '@/domain/errors'
+import { EmailInUseError, InvalidCredentialsError } from '@/domain/errors'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 
@@ -177,5 +177,15 @@ describe('Signup component', () => {
     expect(saveAccessTokenMock.accessToken).toBe(addAccountSpy.account.accessToken)
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
+  })
+
+  test('should present error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+    await simulateValidSubmit(sut)
+
+    Helper.testElementText(sut, 'main-error', error.message)
+    Helper.testChildCount(sut, 'error-wrap', 1)
   })
 })
