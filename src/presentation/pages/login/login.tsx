@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Footer, Input, Header, FormStatus } from '@/presentation/components'
+import { Footer, Input, Header, FormStatus, ButtonSubmit } from '@/presentation/components'
 import Context from '@/presentation/contexts/form/form-context'
 import { Validation } from '../protocols/validation'
 import { Authentication, SaveAccessToken } from '@/domain/usecases'
@@ -17,24 +17,28 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken })
   const history = useHistory()
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     password: '',
     email: '',
     emailError: '',
     passwordError: '',
     mainError: ''
   })
+  const emailError = validation.validate('email', state.email)
+  const passwordError = validation.validate('password', state.password)
   useEffect(() => {
     setState({
       ...state,
-      emailError: validation.validate('email', state.email),
-      passwordError: validation.validate('password', state.password)
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError
     })
   }, [state.email, state.password])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      if (state.isLoading || state.emailError || state.passwordError) {
+      if (state.isLoading || state.isFormInvalid) {
         // trava
         return
       }
@@ -65,7 +69,7 @@ const Login: React.FC<Props> = ({ validation, authentication, saveAccessToken })
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="digite seu email"/>
           <Input type="password" name="password" placeholder="digite sua senha" />
-          <button data-testid='submit' disabled={!!state.emailError || !!state.passwordError} className={Styles.submit} type="submit">Entrar</button>
+          < ButtonSubmit text='Entrar'/>
           <Link data-testid='signup-link' to="/signup" className={Styles.link}>criar conta</Link>
           <FormStatus />
         </form>
