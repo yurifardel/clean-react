@@ -7,7 +7,7 @@ describe('login', () => {
     cy.visit('login')
   })
 
-  it('shuld load with correct inital state', () => {
+  it('should load with correct inital state', () => {
     cy.getByTestId('email').should('have.attr', 'readOnly')
     cy.getByTestId('email-status')
       .should('have.attr', 'title', 'campo obrigatorio')
@@ -22,7 +22,7 @@ describe('login', () => {
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
 
-  it('shuld present error state if form is invalid', () => {
+  it('should present error state if form is invalid', () => {
     cy.getByTestId('email').focus().type(faker.random.word())
     cy.getByTestId('email-status')
       .should('have.attr', 'title', 'campo invalido')
@@ -37,7 +37,7 @@ describe('login', () => {
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
 
-  it('shuld present valid state if form is valid', () => {
+  it('should present valid state if form is valid', () => {
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('email-status')
       .should('have.attr', 'title', 'Tudo certo')
@@ -52,26 +52,65 @@ describe('login', () => {
     cy.getByTestId('error-wrap').should('not.have.descendants')
   })
 
-  it('shuld present error if invalid credentials are provided', () => {
+  it('should present invalid-credentials-error on 401', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 401,
+      response: {
+        error: faker.random.words()
+      }
+    })
     cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit').click()
     cy.getByTestId('error-wrap')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
       .getByTestId('spinner').should('not.exist')
       .getByTestId('main-error').should('contain.text', 'Credenciais invalidas')
     cy.url().should('eq', `${baseUrl}/login`)
   })
 
-  it('shuld present save accessToken if valid credentials are provided', () => {
+  it('should present unexpected-error on 400', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 400,
+      response: {
+        error: faker.random.words()
+      }
+    })
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
+    cy.getByTestId('submit').click()
+    cy.getByTestId('error-wrap')
+      .getByTestId('spinner').should('not.exist')
+      .getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve')
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
+
+  it('should present unexpected-error if invalid data is returned', () => {
+    cy.intercept('POST', /login/, {
+      statusCode: 200,
+      response: {
+        invalidProperty: faker.datatype.uuid()
+      }
+    })
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
+    cy.getByTestId('submit').click()
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve')
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
+
+  it('should present save accessToken if valid credentials are provided', () => {
+    cy.intercept('POST', {
+      statusCode: 200,
+      response: {
+        accessToken: faker.datatype.uuid()
+      }
+    })
     cy.getByTestId('email').focus().type('mango@gmail.com')
     cy.getByTestId('password').focus().type('12345')
     cy.getByTestId('submit').click()
-    cy.getByTestId('error-wrap')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
-      .getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
   })
