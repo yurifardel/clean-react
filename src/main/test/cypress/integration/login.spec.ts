@@ -4,6 +4,7 @@ const baseUrl: string = Cypress.config().baseUrl
 
 describe('login', () => {
   beforeEach(() => {
+    cy.server()
     cy.visit('login')
   })
 
@@ -53,8 +54,10 @@ describe('login', () => {
   })
 
   it('should present invalid-credentials-error on 401', () => {
-    cy.intercept('POST', /login/, {
-      statusCode: 401,
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 401,
       response: {
         error: faker.random.words()
       }
@@ -69,8 +72,10 @@ describe('login', () => {
   })
 
   it('should present unexpected-error on 400', () => {
-    cy.intercept('POST', /login/, {
-      statusCode: 400,
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 400,
       response: {
         error: faker.random.words()
       }
@@ -85,8 +90,10 @@ describe('login', () => {
   })
 
   it('should present unexpected-error if invalid data is returned', () => {
-    cy.intercept('POST', /login/, {
-      statusCode: 200,
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 200,
       response: {
         invalidProperty: faker.datatype.uuid()
       }
@@ -100,18 +107,35 @@ describe('login', () => {
   })
 
   it('should present save accessToken if valid credentials are provided', () => {
-    cy.intercept('POST', {
-      statusCode: 200,
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 200,
       response: {
         accessToken: faker.datatype.uuid()
       }
     })
-    cy.getByTestId('email').focus().type(faker.internet.email())
-    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
+    cy.getByTestId('email').focus().type('mango@gmail.com')
+    cy.getByTestId('password').focus().type('12345')
     cy.getByTestId('submit').click()
     cy.getByTestId('main-error').should('not.exist')
     cy.getByTestId('spinner').should('not.exist')
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))
+  })
+
+  it('should present multiple submits', () => {
+    cy.route({
+      method: 'POST',
+      url: /login/,
+      status: 200,
+      response: {
+        accessToken: faker.datatype.uuid()
+      }
+    }).as('request')
+    cy.getByTestId('email').focus().type('mango@gmail.com')
+    cy.getByTestId('password').focus().type('12345')
+    cy.getByTestId('submit').dblclick()
+    cy.get('@request.all').should('have.length', 1)
   })
 })
