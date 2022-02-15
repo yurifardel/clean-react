@@ -3,7 +3,27 @@
 .inputWrap {
   margin-top: 40px;
   position: relative;
-  // border-bottom: 2px dashed $disabledColor;
+  // border-bottom: 2px solid $invalid;
+
+  &[data-status='valid'] {
+    border-bottom: 2px solid $valid;
+    border-bottom-color: $valid;
+    
+    &::after{
+      background-color: $valid;
+    }
+  }
+
+  
+  &[data-status='invalid'] {
+    border-bottom: 2px solid $invalid;
+    border-bottom-color: $invalid;
+
+    &::after{
+      background-color: $invalid;
+    }
+  }
+
 
   &::after {
     content: "";
@@ -15,7 +35,7 @@
     left: 0px;
     transform-origin: 0%;
     transform: scaleX(0);
-    transition: transform 500ms ease;
+    transition: transform 400ms ease;
   }
 
   &:focus-within {
